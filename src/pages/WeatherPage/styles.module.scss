@@ -1,0 +1,49 @@
+.spin {
+    margin-top: 40vh;
+}
+.form {
+    display: flex;
+    gap: 4px;
+    padding: 12px;
+
+    p {
+        margin: 0;
+    }
+
+    input {
+        max-width: 200px;
+    }
+
+    .input {
+        border-radius: 20px;
+        border-color: #9ac2ff;
+        padding: 10px 20px;
+    }
+
+    .button {
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 12px 20px;
+        display: flex;
+        align-items: center;
+        border-radius: 20px;
+        background: #9ac2ff;
+        color: #FAFAFA;
+        transition: all .3s;
+
+        &:hover {
+            background: #3f83f3;
+        }
+    }
+}
+
+.settings_location {
+    margin: 24px;
+    p {
+        font-size: 16px;
+    }
+    ol {
+        margin-top: 12px;
+    }
+}

@@ -1,0 +1,27 @@
+.label {
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ p {
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+ }
+
+ .buttons {
+  display: flex;
+
+  img {
+   width: 20px;
+   margin-right: 2px;
+  }
+  .delete {
+   border: none;
+   outline: none;
+   cursor: pointer;
+   background: transparent;
+  }
+ }
+
+}

@@ -1,0 +1,25 @@
+.tab {
+  display: flex;
+  gap: 18px;
+  font-family: "Nunito-Bold", sans-serif;
+
+  .title {
+    color: black;
+  }
+
+  .weekend {
+    color: #f26f6f;
+  }
+  .temp {
+    display: flex;
+    p {
+      color: #494343;
+      margin: 0;
+    }
+
+  }
+
+  img {
+    width: 70px;
+  }
+}
