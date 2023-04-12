@@ -55,10 +55,10 @@ export const LocationLayout = ({ children }: MainLayoutProps) => {
                           dispatch(setOpenModal(true));
                         }}
                       >
-                        <img src={"public/icons/pencil.svg"} />{" "}
+                        <img src={"/weather-app/icons/pencil.svg"} />{" "}
                       </button>
                       <button className={s.delete} onClick={() => dispatch(deleteLocation(item?.id))}>
-                        <img src={"public/icons/delete.svg"} />{" "}
+                        <img src={"/weather-app/icons/delete.svg"} />{" "}
                       </button>
 
                       <RenameLocationModal isModalOpen={open} />
@@ -68,7 +68,7 @@ export const LocationLayout = ({ children }: MainLayoutProps) => {
               </div>
             ),
             onClick: () => {
-              navigate(`/${item?.id ?? ""}`);
+              navigate(`/weather-app/${item?.id ?? ""}`);
               dispatch(addCurrentWeather({ lat: +item.lat, lon: +item.lon }));
             },
           }))}

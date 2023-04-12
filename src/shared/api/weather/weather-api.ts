@@ -5,7 +5,7 @@ export const getWeather = async (data: GetWeatherRequestT): Promise<GetWeatherRe
     if (i === 0) return `${key}=${data[key]}`;
     return `${acc}&${key}=${data[key]}`;
   }, "");
-  const res = await fetch(`http://212.118.54.197:1337/weather?${mapDataToParams}`, {
+  const res = await fetch(`https://skyesell.ru/weather?${mapDataToParams}`, {
     method: "GET",
   });
   return await res.json();

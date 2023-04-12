@@ -29,12 +29,12 @@ export const WeatherCardNow = (props: WeatherFactT) => {
       <div className={s.block_info_main}>
         <div className={s.info}>
           <div className={s.date}>
-            <img src={"public/icons/time.svg"} alt={"time_icon"} />
+            <img src={"/weather-app/icons/time.svg"} alt={"time_icon"} />
             <h2>{time}</h2>
           </div>
           <div className={s.location}>
             <div className={s.location_map}>
-              <img src={"public/icons/world.svg"} alt={"world_icon"} />
+              <img src={"/weather-app/icons/world.svg"} alt={"world_icon"} />
               <h3>
                 {!(location.country || location.district || location.province || location.locality)
                   ? "Нет данных о местоположении"
@@ -49,7 +49,7 @@ export const WeatherCardNow = (props: WeatherFactT) => {
               </h3>
             </div>
             <div className={s.latlon}>
-              <img src={"public/icons/map.svg"} alt={"map_icon"} />
+              <img src={"/weather-app/icons/map.svg"} alt={"map_icon"} />
               <div>
                 <h4>Широта: {lat}</h4>
                 <h4>Долгота: {lon}</h4>
@@ -57,13 +57,13 @@ export const WeatherCardNow = (props: WeatherFactT) => {
             </div>
           </div>
           <div className={s.middle_temp}>
-            <img src={"public/icons/temperature-lines.svg"} alt={"temp_icon"} />
+            <img src={"/weather-app/icons/temperature-lines.svg"} alt={"temp_icon"} />
             <p>
               Температура: <b>{temp} °C</b>
             </p>
           </div>
           <div className={s.feels_temp}>
-            <img src={"public/icons/tabler_temperature.svg"} alt={"temp_icon"} />
+            <img src={"/weather-app/icons/tabler_temperature.svg"} alt={"temp_icon"} />
             <p>
               Ощущается: <b>{feels_like} °C</b>
             </p>
@@ -78,21 +78,21 @@ export const WeatherCardNow = (props: WeatherFactT) => {
         <div className={s.block}>
           <div className={s.header}>
             <h4>Скорость Ветра</h4>
-            <img src={"/public/icons/wind.svg"} alt={"wind_icon"} />
+            <img src={"/weather-app/icons/wind.svg"} alt={"wind_icon"} />
           </div>
           <h3>{wind_speed} м/с</h3>
         </div>
         <div className={s.block}>
           <div className={s.header}>
             <h4>Давление</h4>
-            <img src={"/public/icons/pressure.svg"} alt={"pressure"} />
+            <img src={"/weather-app/icons/pressure.svg"} alt={"pressure"} />
           </div>
           <h3>{pressure_mm} мм рт. ст.</h3>
         </div>
         <div className={s.block}>
           <div className={s.header}>
             <h4>Влажность</h4>
-            <img src={"/public/icons/humidity.svg"} alt={"humidity"} />
+            <img src={"/weather-app/icons/humidity.svg"} alt={"humidity"} />
           </div>
           <h3>{humidity} %</h3>
         </div>

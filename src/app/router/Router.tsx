@@ -6,11 +6,11 @@ export const router = createBrowserRouter([
     path: "/",
     children: [
       {
-        path: "/",
+        path: "/weather-app/",
         element: <WeatherPage />,
       },
       {
-        path: "/:locationId",
+        path: "weather-app/:locationId",
         element: <WeatherPage />,
       },
     ],

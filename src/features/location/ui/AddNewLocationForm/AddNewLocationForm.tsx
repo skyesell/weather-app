@@ -18,7 +18,7 @@ export const AddNewLocationForm = () => {
     const { lon, lat } = form;
     dispatch(createLocation({ lat: +lat, lon: +lon }));
     dispatch(addCurrentWeather({ lat: +lat, lon: +lon }));
-    navigate("/");
+    navigate("/weather-app");
   };
 
   return (
