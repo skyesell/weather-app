@@ -80,11 +80,11 @@ export const locationSlice = createSlice({
         state.geolocationLoading = true;
       })
       .addCase(getWeatherByCurrentLocation.fulfilled, (state, action) => {
+        state.geolocationLoading = false;
         if (action.payload) {
           const { lat, lon } = action.payload;
           state.geoLocation = { ...state.geoLocation, lon: String(lon), lat: String(lat), name: "Текущая" };
           state.currentLocation = { ...state.currentLocation, lat, lon };
-          state.geolocationLoading = false;
         }
       });
   },
