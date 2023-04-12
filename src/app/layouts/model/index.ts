@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { locationSlice } from "../../../entities/location/model";
 
 export interface ModalState {
   open: boolean;

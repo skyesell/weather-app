@@ -1,10 +1,11 @@
 import { RouterProvider } from "react-router-dom";
-import { router } from "./app/router/Router";
 import { useEffect } from "react";
+
+import { router } from "./app/router/Router";
 import { createLocation, getWeatherByCurrentLocation } from "./shared/actions";
 import { useAppDispatch } from "./app/store/store";
-import "./globals.css";
 import { init } from "./entities/location/model";
+import "./globals.css";
 
 function App() {
   const dispatch = useAppDispatch();

@@ -1,16 +1,18 @@
-import { Modal } from "antd";
-import { RootState, useAppDispatch } from "../../../../../app/store/store";
+import {Form, Input, Modal} from "antd";
+import { RootState, useAppDispatch } from "../../../../app/store/store";
 import s from "./styles.module.scss";
 import { useSelector } from "react-redux";
-import { useForm } from "react-hook-form";
-import { changeLocationName } from "../../../../../entities/location/model";
-import { setOpenModal } from "../../../../../app/layouts/model";
+import { changeLocationName } from "../../../../entities/location/model";
+import { setOpenModal } from "../../../../app/layouts/model";
+
 type FormT = {
   name: string;
 };
+
 interface ModalProps {
   isModalOpen: boolean;
 }
+
 export const RenameLocationModal = (props: ModalProps) => {
   const { isModalOpen } = props;
 
@@ -19,28 +21,41 @@ export const RenameLocationModal = (props: ModalProps) => {
   const { locationsList, locationId } = useSelector((state: RootState) => state.location);
 
   const currentLocation = locationsList.find((location) => location.id === locationId);
+
+  const [form] = Form.useForm<FormT>();
+
   const handleOk = (data: FormT) => {
-    console.log("id", locationId);
     dispatch(changeLocationName({ id: locationId, newName: data.name }));
     dispatch(setOpenModal(false));
+    form.resetFields()
   };
-  const handleCancel = () => dispatch(setOpenModal(false));
 
-  const { register, handleSubmit } = useForm<FormT>();
+  const handleCancel = () => {
+    dispatch(setOpenModal(false));
+    form.resetFields()
+  }
 
   return (
     <Modal
       className={s.modal}
       title="Редактирование локации"
       open={isModalOpen}
-      onOk={handleSubmit(handleOk)}
+      onOk={form.submit}
+      cancelText={"Закрыть"}
+      okText={"Подтвердить"}
+      okButtonProps={{target: "хуй"}}
       onCancel={handleCancel}
     >
-      <form className={s.form} onSubmit={handleSubmit(handleOk)}>
-        <input className={s.input} {...register("name", { required: true })} type="text" placeholder="имя" />
-        <input className={s.input} value={currentLocation?.lat} type="number" disabled={true} placeholder="широта" />
-        <input value={currentLocation?.lon} className={s.input} disabled={true} type="number" placeholder="долгота" />
-      </form>
+      <Form form={form} className={s.form} onFinish={handleOk}>
+        <Form.Item name="name" label="Название" rules={[{ required: true, message: "Заполните поле" }]}>
+          <Input />
+        </Form.Item>
+        <Form.Item>
+          <Input className={s.input} value={currentLocation?.lat} type="number" disabled={true} placeholder="широта" /></Form.Item>
+        <Form.Item>
+          <Input value={currentLocation?.lon} className={s.input} disabled={true} type="number" placeholder="долгота" />
+        </Form.Item>
+      </Form>
     </Modal>
   );
 };

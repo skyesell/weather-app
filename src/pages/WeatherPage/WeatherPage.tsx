@@ -1,15 +1,17 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Button, Form, Input, Spin, Tabs } from "antd";
+import { useSelector } from "react-redux";
+import { nanoid } from "nanoid";
+
+import { RootState, useAppDispatch } from "../../app/store/store";
 import { WeatherCardNow } from "../../features/weather/ui/WeatherCardNow/WeatherCardNow";
 import { WeatherCard } from "../../features/weather/ui/WeatherCard/WeatherCard";
 import { TabInfo } from "../../entities/weather/ui/TabInfo/TabInfo";
 import { TabInfoNow } from "../../entities/weather/ui/TabInfoNow/TabInfoNow";
-import s from "./styles.module.scss";
-import { useSelector } from "react-redux";
-import { nanoid } from "nanoid";
-import { RootState, useAppDispatch } from "../../app/store/store";
-import React from "react";
-import { LocationLayout } from "../../app/layouts/LocationLayout";
 import { addWeatherToList } from "../../shared/actions";
+import s from "./styles.module.scss";
+import { Instruction } from "../../features/weather/ui/Instruction/Instruction";
 
 const conditionTranslate: { [key: string]: string } = {
   clear: "Ясно",
@@ -38,10 +40,29 @@ type FormT = {
 
 export const WeatherPage = () => {
   const dispatch = useAppDispatch();
+  const location = useLocation();
+
   const { geoWeather, weatherLoading } = useSelector((state: RootState) => state.weather);
   const { currentLocation, geolocationLoading, accessLocation } = useSelector((state: RootState) => state.location);
 
-  console.log(weatherLoading, "loading");
+  const [form] = Form.useForm<FormT>();
+  const onSubmit = (form: FormT) => {
+    if (currentLocation) {
+      dispatch(
+        addWeatherToList({
+          name: form.name,
+          lat: currentLocation.lat.toString(),
+          lon: currentLocation.lon.toString(),
+          locationId: nanoid(),
+        })
+      );
+    }
+  };
+
+  useEffect(() => {
+    form.resetFields();
+  }, [location.pathname]);
+
   const getCurrentDay = (day: string) => {
     const current = day.split("-");
 
@@ -71,7 +92,7 @@ export const WeatherPage = () => {
       ]
     : [];
 
-  const itemsForecats = geoWeather
+  const itemsForecasts = geoWeather
     ? geoWeather.forecasts.map((forecast, i) => {
         return {
           label: (
@@ -96,34 +117,19 @@ export const WeatherPage = () => {
       })
     : [];
 
-  const items = itemFirst.concat(itemsForecats);
-
-  const [form] = Form.useForm<FormT>();
-  const onSubmit = (form: FormT) => {
-    console.log(form.name);
-    if (currentLocation) {
-      dispatch(
-        addWeatherToList({
-          name: form.name,
-          lat: currentLocation.lat.toString(),
-          lon: currentLocation.lon.toString(),
-          locationId: nanoid(),
-        })
-      );
-    }
-  };
+  const items = itemFirst.concat(itemsForecasts);
 
   return (
-    <LocationLayout>
+    <>
       {weatherLoading || geolocationLoading ? (
         <Spin className={s.spin} size="large">
           <div className="content" />
         </Spin>
       ) : items.length ? (
         <>
-          <Tabs className={s.tabs} defaultActiveKey="1" type="card" size="middle" items={items} />
+          <Tabs className={s.tabs} defaultActiveKey="0" type="card" size="middle" items={items} />
           <Form className={s.form} form={form} onFinish={onSubmit}>
-            <Form.Item name="name" label="Название" rules={[{ required: true }]}>
+            <Form.Item name="name" label="Название" rules={[{ required: true, message: "Заполните поле" }]}>
               <Input />
             </Form.Item>
             <Form.Item>
@@ -134,23 +140,8 @@ export const WeatherPage = () => {
           </Form>
         </>
       ) : (
-        !accessLocation && (
-          <div className={s.settings_location}>
-            <p>Вы запретили доступ к геолокации</p>
-            <p> Следуйте инструкциям ниже, чтобы разрешить доступ, а после обновите страницу</p>
-            <ol>
-              <li>Перейдите в настройки браузера</li>
-              <li>Выберите пункт "Конфиденциальность и безопасность" затем "Настройки сайтов</li>
-              <li>Нажмите Геоданные. </li>
-              <li>
-                Выберите настройку, которая будет действовать по умолчанию. Чтобы изменить настройки для отдельного
-                сайта, задайте исключения.
-              </li>
-              <li>Обновите страницу</li>
-            </ol>
-          </div>
-        )
+        !accessLocation && <Instruction />
       )}
-    </LocationLayout>
+    </>
   );
 };

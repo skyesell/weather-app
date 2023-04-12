@@ -63,6 +63,7 @@ export const locationSlice = createSlice({
         locationsCpy.push({ lat, lon, name, id: locationId });
         saveInStorage("locations", locationsCpy);
         state.locationsList = locationsCpy;
+        state.currentLocation = null;
       })
       .addCase(createLocation, (state, action) => {
         state.currentLocation = { lon: action.payload.lon, lat: action.payload.lat };
@@ -71,7 +72,9 @@ export const locationSlice = createSlice({
         state.accessLocation = action.payload;
       })
       .addCase(deleteLocation, (state, action) => {
-        state.locationsList = state.locationsList.filter((location) => location.id !== action.payload);
+        const filteredList = state.locationsList.filter((location) => location.id !== action.payload);
+        state.locationsList = filteredList;
+        saveInStorage("locations", filteredList);
       })
       .addCase(getWeatherByCurrentLocation.pending, (state) => {
         state.geolocationLoading = true;
@@ -80,6 +83,7 @@ export const locationSlice = createSlice({
         if (action.payload) {
           const { lat, lon } = action.payload;
           state.geoLocation = { ...state.geoLocation, lon: String(lon), lat: String(lat), name: "Текущая" };
+          state.currentLocation = { ...state.currentLocation, lat, lon };
           state.geolocationLoading = false;
         }
       });
